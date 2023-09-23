@@ -7,7 +7,7 @@
             <AppFilter />
          </div>
          <MovieList :movies="movies"/>
-         <MovieAddForm/>
+         <MovieAddForm @createMovie="createMovie"/>
       </div>
    </div>
 </template>
@@ -40,6 +40,9 @@ const movies = ref([
       like: true
    },
 ]);
+const createMovie = (movie) => {
+   movies.value.push(movie);
+} 
 </script>
 
 <style lang="scss">

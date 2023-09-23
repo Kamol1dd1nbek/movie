@@ -1,23 +1,52 @@
 <template>
    <div class="movie-add-form">
       <h3>Yangi kino qo'shish</h3>
-      <form class="add-form d-flex">
+      <form @submit.prevent class="add-form d-flex">
          <input
             type="text"
             class="form-control new-movie-label"
             placeholder="Qanday kino?"
+            v-model="form.name"
          />
          <input
             type="text"
             class="form-control new-movie-label"
             placeholder="Nechi marotoba ko'rilgan?"
+            v-model="form.viewers"
          />
-         <button class="btn btn-outline-dark" type="submit">Qo'shish</button>
+         <button
+            @click="
+               () => {
+                  const newMovie = {
+                     ...form,
+                     favourite: false,
+                     like: false,
+                  };
+                  (form.name = ''), (form.viewers = '');
+                  $emit('createMovie', newMovie);
+               }
+            "
+            class="btn btn-outline-dark"
+            type="submit"
+         >
+            Qo'shish
+         </button>
       </form>
    </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { reactive } from "vue";
+
+const form = reactive({
+   name: "",
+   viewers: "",
+});
+
+function addMovie(e) {
+   // this.emit("createMovie", newMovie);
+}
+</script>
 
 <style lang="scss" scoped>
 .movie-add-form {
