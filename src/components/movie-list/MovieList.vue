@@ -1,13 +1,21 @@
 <template>
    <ul class="movie-list list-group">
-    <MovieListItem/>
-    <MovieListItem/>
-    <MovieListItem/>
+      <MovieListItem
+         v-for="(movie, index) in movies"
+         :key="index"
+         :movie="movie"
+      />
    </ul>
 </template>
 
 <script setup>
 import MovieListItem from "../move-list-item/MovieListItem.vue";
+const props = defineProps({
+   movies: {
+      type: Array,
+      required: true,
+   },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -19,6 +27,6 @@ import MovieListItem from "../move-list-item/MovieListItem.vue";
    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.15);
 }
 .movie-list .list-group-item:last-child {
-   border-bottom:none;
+   border-bottom: none;
 }
 </style>

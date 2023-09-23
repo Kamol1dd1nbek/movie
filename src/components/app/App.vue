@@ -1,23 +1,45 @@
 <template>
    <div class="app font-monospace">
       <div class="content">
-         <AppInfo></AppInfo>
+         <AppInfo :allMoviesCount="movies.length" :favouriteMoviesCount="movies.filter(movie => movie.favourite).length"/>
          <div class="search-pannel">
             <SearchPannel />
             <AppFilter />
          </div>
-         <MovieList/>
+         <MovieList :movies="movies"/>
          <MovieAddForm/>
       </div>
    </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import AppInfo from "@/components/app-info/AppInfo.vue";
 import SearchPannel from "@/components/search-pannel/SearchPannel.vue";
 import AppFilter from "@/components/app-filter/AppFilter.vue";
 import MovieList from "../movie-list/MovieList.vue";
 import MovieAddForm from "../movie-add-form/MovieAddForm.vue";
+
+const movies = ref([
+   {
+      name: "Osmondagi bolalar",
+      viewers: 511,
+      favourite: false,
+      like: true
+   },
+   {
+      name: "Kelinlar qo'zg'oloni",
+      viewers: 745,
+      favourite: false,
+      like: false
+   },
+   {
+      name: "Abdullajon",
+      viewers: 861,
+      favourite: true,
+      like: true
+   },
+]);
 </script>
 
 <style lang="scss">

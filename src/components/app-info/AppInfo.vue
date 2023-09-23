@@ -1,11 +1,22 @@
 <template>
    <div class="app-info">
-      <p class="fs-3 text-uppercase">Barcha kinolar soni: 0</p>
-      <p class="fs-3 text-uppercase">Ko'rilgan kinolar soni: 0</p>
+      <p class="fs-3 text-uppercase">Barcha kinolar soni: {{ allMoviesCount }}</p>
+      <p class="fs-3 text-uppercase">Ko'rilgan kinolar soni: {{ favouriteMoviesCount }}</p>
    </div>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps({
+   allMoviesCount: {
+      type: Number,
+      required: true
+   },
+   favouriteMoviesCount: {
+      type: Number,
+      required: true
+   }
+});
+</script>
 
 <style lang="scss" scoped>
 .app-info {

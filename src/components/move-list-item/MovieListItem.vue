@@ -1,24 +1,28 @@
 <template>
-      <li class="list-group-item d-flex justify-content-between like favourite">
-         <span class="list-group-item-label">Omar</span>
-         <input
-            type="number"
-            class="list-group-item-input"
-            defaultValue="811"
-         />
-         <div class="d-flex justify-content-center align-items-center">
-            <button type="button" class="btn-cookie btn-sm">
-               <i class="fas fa-cookie"></i>
-            </button>
-            <button type="button" class="btn-trash btn-sm">
-               <i class="fas fa-trash"></i>
-            </button>
-            <i class="fas fa-star"></i>
-         </div>
-      </li>
+   <li class="list-group-item d-flex justify-content-between" :class="[{like: movie.like}, {favourite: movie.favourite}]">
+      <span class="list-group-item-label">{{ movie.name }}</span>
+      <input type="number" class="list-group-item-input" :value="movie.viewers"/>
+      <div class="d-flex justify-content-center align-items-center">
+         <button type="button" class="btn-cookie btn-sm">
+            <i class="fas fa-cookie"></i>
+         </button>
+         <button type="button" class="btn-trash btn-sm">
+            <i class="fas fa-trash"></i>
+         </button>
+         <i class="fas fa-star"></i>
+      </div>
+   </li>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps({
+   movie: {
+      type: Object,
+      required: true
+   }
+});
+console.log()
+</script>
 
 <style lang="scss" scoped>
 .list-group-item {
@@ -59,7 +63,7 @@
       font-size: 16px;
       color: #ffd700;
       text-align: center;
-      transition: .3s all;
+      transition: 0.3s all;
       transform: translateX(30px);
       opacity: 0;
    }
