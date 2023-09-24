@@ -15,17 +15,7 @@
             v-model="form.viewers"
          />
          <button
-            @click="
-               () => {
-                  const newMovie = {
-                     ...form,
-                     favourite: false,
-                     like: false,
-                  };
-                  (form.name = ''), (form.viewers = '');
-                  $emit('createMovie', newMovie);
-               }
-            "
+            @click="addMovie($emit)"
             class="btn btn-outline-dark"
             type="submit"
          >
@@ -43,8 +33,14 @@ const form = reactive({
    viewers: "",
 });
 
-function addMovie(e) {
-   // this.emit("createMovie", newMovie);
+function addMovie($emit) {
+   const newMovie = {
+      id: Date.now(),
+      ...form,
+      favourite: false,
+      like: false,
+   };
+   $emit("createMovie", newMovie);
 }
 </script>
 

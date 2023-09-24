@@ -6,7 +6,7 @@
             <SearchPannel />
             <AppFilter />
          </div>
-         <MovieList :movies="movies"/>
+         <MovieList @onLike="likeHandler" :movies="movies"/>
          <MovieAddForm @createMovie="createMovie"/>
       </div>
    </div>
@@ -22,24 +22,37 @@ import MovieAddForm from "../movie-add-form/MovieAddForm.vue";
 
 const movies = ref([
    {
+      id: 1,
       name: "Osmondagi bolalar",
       viewers: 511,
       favourite: false,
       like: true
    },
    {
+      id: 2,
       name: "Kelinlar qo'zg'oloni",
       viewers: 745,
       favourite: false,
       like: false
    },
    {
+      id: 3,
       name: "Abdullajon",
       viewers: 861,
       favourite: true,
       like: true
    },
 ]);
+
+const likeHandler = (id) => {
+   movies.value =  movies.value.map(item => {
+      if (item.id === id) {
+         item.like = !item.like
+      }
+      return item;
+   });
+}
+
 const createMovie = (movie) => {
    movies.value.push(movie);
 } 
