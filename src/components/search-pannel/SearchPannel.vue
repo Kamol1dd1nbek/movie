@@ -4,11 +4,27 @@
          type="text"
          class="form-control search-input"
          placeholder="Kinolarni qidirish"
+         v-model="term"
+         @input="changeHandler"
       />
    </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+const term = ref("");
+
+const props = defineProps({
+   updateTermHandler: {
+      type: Function,
+      required: true
+   }
+});
+
+const changeHandler = () => {
+   props.updateTermHandler(term.value);
+}
+</script>
 
 <style lang="scss" scoped>
 .search-input {

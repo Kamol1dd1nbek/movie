@@ -9,7 +9,7 @@
             v-model="form.name"
          />
          <input
-            type="text"
+            type="number"
             class="form-control new-movie-label"
             placeholder="Nechi marotoba ko'rilgan?"
             v-model="form.viewers"
@@ -30,10 +30,11 @@ import { reactive } from "vue";
 
 const form = reactive({
    name: "",
-   viewers: "",
+   viewers: null,
 });
 
 function addMovie($emit) {
+   if (!form.name || !form.viewers) return;
    const newMovie = {
       id: Date.now(),
       ...form,
@@ -41,6 +42,8 @@ function addMovie($emit) {
       like: false,
    };
    $emit("createMovie", newMovie);
+   form.name = "";
+   form.viewers = null;
 }
 </script>
 

@@ -1,12 +1,12 @@
 <template>
    <li class="list-group-item d-flex justify-content-between" :class="[{like: movie.like}, {favourite: movie.favourite}]">
-      <span @click="$emit('onLike', movie.id)" class="list-group-item-label">{{ movie.name }}</span>
+      <span @click="$emit('oneToggle', {id: movie.id, prop: 'like'})" class="list-group-item-label">{{ movie.name }}</span>
       <input type="number" class="list-group-item-input" :value="movie.viewers"/>
       <div class="d-flex justify-content-center align-items-center">
-         <button type="button" class="btn-cookie btn-sm">
+         <button @click="$emit('oneToggle', {id: movie.id, prop: 'favourite'})" type="button" class="btn-cookie btn-sm">
             <i class="fas fa-cookie"></i>
          </button>
-         <button type="button" class="btn-trash btn-sm">
+         <button @click="$emit('onRemove', movie.id)" type="button" class="btn-trash btn-sm">
             <i class="fas fa-trash"></i>
          </button>
          <i class="fas fa-star"></i>

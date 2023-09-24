@@ -1,13 +1,22 @@
 <template>
    <div class="app font-monospace">
       <div class="content">
-         <AppInfo :allMoviesCount="movies.length" :favouriteMoviesCount="movies.filter(movie => movie.favourite).length"/>
+         <AppInfo
+            :allMoviesCount="movies.length"
+            :favouriteMoviesCount="
+               movies.filter((movie) => movie.favourite).length
+            "
+         />
          <div class="search-pannel">
-            <SearchPannel />
-            <AppFilter />
+            <SearchPannel :updateTermHandler="updateTermHandler" />
+            <AppFilter :updateFilterHandler="updateFilterHandler" :filterName="filter"/>
          </div>
-         <MovieList @onLike="likeHandler" :movies="movies"/>
-         <MovieAddForm @createMovie="createMovie"/>
+         <MovieList
+            @oneToggle="oneToggleHandler"
+            @onRemove="onRemoveHandler"
+            :movies="onFilterHandler(onSearchHandler(movies, term), filter)"
+         />
+         <MovieAddForm @createMovie="createMovie" />
       </div>
    </div>
 </template>
@@ -20,45 +29,79 @@ import AppFilter from "@/components/app-filter/AppFilter.vue";
 import MovieList from "../movie-list/MovieList.vue";
 import MovieAddForm from "../movie-add-form/MovieAddForm.vue";
 
+const term = ref("");
+const filter = ref("all");
+
 const movies = ref([
    {
       id: 1,
       name: "Osmondagi bolalar",
       viewers: 511,
       favourite: false,
-      like: true
+      like: true,
    },
    {
       id: 2,
       name: "Kelinlar qo'zg'oloni",
-      viewers: 745,
+      viewers: 434,
       favourite: false,
-      like: false
+      like: false,
    },
    {
       id: 3,
       name: "Abdullajon",
       viewers: 861,
       favourite: true,
-      like: true
+      like: true,
    },
 ]);
 
-const likeHandler = (id) => {
-   movies.value =  movies.value.map(item => {
+const oneToggleHandler = ({ id, prop }) => {
+   movies.value = movies.value.map((item) => {
       if (item.id === id) {
-         item.like = !item.like
+         return { ...item, [prop]: !item[prop] };
       }
       return item;
    });
-}
+};
+
+const onSearchHandler = (arr, term) => {
+   if (arr.length == 0) return arr;
+   return arr.filter((movie) => movie.name.toLowerCase().indexOf(term) > -1);
+};
+
+const onRemoveHandler = (id) => {
+   movies.value = movies.value.filter((movie) => movie.id !== id);
+};
 
 const createMovie = (movie) => {
    movies.value.push(movie);
-} 
+};
+
+const updateTermHandler = (value) => {
+   term.value = value;
+};
+
+const onFilterHandler = (arr, filter) => {
+   switch (filter) {
+      case "popular":
+         return arr.filter(movie => movie.like);
+      case "mostViewers":
+         return arr.filter(movie => movie.viewers > 500);
+      default:
+         return arr;
+   }
+}
+
+const updateFilterHandler = (value) => {
+   filter.value = value;
+}
 </script>
 
 <style lang="scss">
+body::-webkit-scrollbar {
+   display: none;
+}
 .app {
    height: 100vh;
    color: #000;
